@@ -1,3 +1,5 @@
+package enums;
+
 public enum Status {
     OK (0, "OK"),
     NOT_FOUND(1,"File not found."),
@@ -6,7 +8,8 @@ public enum Status {
     ERROR_INPUT(4, "Invalid input."),
     OUT_OF_BOUNDS (5, "Characters out of bounds."),
     INVALID_LENGTH(6, "The word is not a given length."),
-    INVALID_DICTIONARY(7, "Invalid dictionary.");
+    INVALID_DICTIONARY(7, "Invalid dictionary."),
+    NO_DICTIONARY(8,"Dictionaries not found." );
 
 
     private final int code;

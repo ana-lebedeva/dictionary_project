@@ -1,30 +1,28 @@
+import enums.CharRange;
+import enums.Status;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class DictionaryService {
-    private String name;
-    private HashMap<String, String> dictionary = new HashMap<>();
-    private int lengthKey;
-    private CharRange[] charRanges;
     final String PATH;
+    Dictionary dictionary;
 
     public DictionaryService(String PATH, String name, int lengthKey, CharRange[] charRanges) {
         String tempPath = new File("").getAbsolutePath();
         this.PATH = tempPath + PATH;
-        this.name = name;
-        this.lengthKey = lengthKey;
-        this.charRanges = charRanges;
+        dictionary = new Dictionary(name, lengthKey, charRanges);
     }
 
     public String searchEntry(String key) {
-        String value = dictionary.get(key);
+        String value = dictionary.getEntries().get(key);
         return value;
     }
 
     public Status deleteEntry(String key) {
-        String temp = dictionary.remove(key);
+        String temp = dictionary.getEntries().remove(key);
         if (temp == null)
             return Status.NOT_KEY;
         overwriting();
@@ -34,7 +32,7 @@ public class DictionaryService {
     @Override
     public String toString() {
         String result = "";
-        for (Map.Entry<String, String> entry : dictionary.entrySet()) {
+        for (Map.Entry<String, String> entry : dictionary.getEntries().entrySet()) {
             result += entry.getKey() + " " + entry.getValue() + "\n";
         }
         return result;
@@ -60,7 +58,7 @@ public class DictionaryService {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] words = line.split("\\s");
-                dictionary.put(words[0], words[1]);
+                dictionary.setEntry(words[0], words[1]);
             }
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             return Status.NOT_FOUND;
@@ -70,19 +68,15 @@ public class DictionaryService {
         return Status.OK;
     }
 
-    public HashMap<String, String> getDictionary() {
-        return dictionary;
-    }
-
 
     public Status addEntry(String key, String value) {
-        if (lengthKey == 0 || lengthKey == key.length()) {
+        if (dictionary.getLengthKey() == 0 || dictionary.getLengthKey() == key.length()) {
                 char[] charsKey = key.toCharArray();
                 char[] charsValue = value.toCharArray();
-                if (charRanges == null || checkCharsKey(charsKey)
+                if (dictionary.getCharRanges() == null || checkCharsKey(charsKey)
                         && checkCharsValue(charsValue))
                     {
-                    dictionary.put(key, value);
+                    dictionary.setEntry(key, value);
                     overwriting();
                     return Status.OK;
                 } else
@@ -92,6 +86,8 @@ public class DictionaryService {
     }
 
     private boolean checkCharsValue(char[] chars) {
+        if (chars.length == 0)
+            return false;
         for (char c : chars) {
             if (c < CharRange.CYRILLIC.getStart()
                     || c > CharRange.CYRILLIC.getEnd())
@@ -103,7 +99,7 @@ public class DictionaryService {
     private boolean checkCharsKey(char[] chars) {
         for (char c : chars) {
             boolean isHave = false;
-            for (CharRange range : charRanges) {
+            for (CharRange range : dictionary.getCharRanges()) {
                 if (c >= range.getStart() && c <= range.getEnd())
                     isHave = true;
             }
@@ -113,27 +109,7 @@ public class DictionaryService {
         return true;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getLengthKey() {
-        return lengthKey;
-    }
-
-    public void setLengthKey(int lengthKey) {
-        this.lengthKey = lengthKey;
-    }
-
-    public CharRange[] getCharRanges() {
-        return charRanges;
-    }
-
-    public void setCharRanges(CharRange[] charRanges) {
-        this.charRanges = charRanges;
+    public Dictionary getDictionary() {
+        return dictionary;
     }
 }
