@@ -1,38 +1,46 @@
-import enums.CharRange;
 import enums.Status;
+import repositories.Repository;
+import validators.Validator;
 
 import java.util.HashMap;
 
-public class Dictionary {
-    private String name;
-    private HashMap<String, String> entries = new HashMap<>();
-    private int lengthKey;
-    private CharRange[] charRanges;
+public class Dictionary implements DictionaryBehavior {
+    private Repository repository;
+    private Validator validator;
 
-    public Dictionary(String name, int lengthKey, CharRange[] charRanges) {
-        this.name = name;
-        this.lengthKey = lengthKey;
-        this.charRanges = charRanges;
+    public Dictionary(Repository repository, Validator validator) {
+        this.repository = repository;
+        this.validator = validator;
     }
 
-    public String getName() {
-        return name;
+
+    @Override
+    public String getValue(int id, String key) {
+        return repository.getValue(id, key);
     }
 
-    public void setEntry (String key, String value){
-        entries.put(key, value);
+    @Override
+    public Status deleteEntry(int id, String key) {
+        return repository.delete(id, key);
     }
 
-    public HashMap<String, String> getEntries() {
-        return entries;
+    @Override
+    public HashMap<String, String> getAllEntries(int id) {
+        return repository.getAll(id);
     }
 
-    public int getLengthKey() {
-        return lengthKey;
+    @Override
+    public Status validateAndAddEntry(int id, String key, String value) {
+        if (validator.checkKey(repository.getProperties(id), key) == Status.OK) {
+            if (validator.checkValue(value) == Status.OK) {
+                return repository.add(id, key, value);
+            } else return validator.checkValue(value);
+        } else return validator.checkKey(repository.getProperties(id), key);
     }
 
-    public CharRange[] getCharRanges() {
-        return charRanges;
+    @Override
+    public int[] getDictionaries() {
+        return repository.getDictionaries();
     }
 
 }

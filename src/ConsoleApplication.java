@@ -4,25 +4,26 @@ import enums.Status;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ConsoleApplication {
     private int menuItem;
-    private DictionaryService dictionaryService;
-    private ArrayList<DictionaryService> dictionaries;
+    private DictionaryBehavior dictionary;
+    private int id;
 
-    public ConsoleApplication(ArrayList<DictionaryService> dictionaries) {
-        this.dictionaries = dictionaries;
+    public ConsoleApplication(DictionaryBehavior dictionary) {
+        this.dictionary = dictionary;
     }
 
-    public void start(){
+    public void start() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            if(!dictionaries.isEmpty())
-                inputDictionary(br);
-            else {
+            if (dictionary.getDictionaries() == null || dictionary.getDictionaries().length == 0) {
                 showMessage(Status.NO_DICTIONARY);
                 System.exit(0);
+            } else {
+                inputDictionary(br);
             }
         } catch (IOException e) {
             showMessage(Status.ERROR_INPUT);
@@ -33,7 +34,7 @@ public class ConsoleApplication {
                 menuItem = Integer.parseInt(br.readLine());
                 switch (menuItem) {
                     case 1:
-                        viewDictionary(dictionaryService);
+                        viewDictionary(dictionary);
                         break;
                     case 2:
                         deleteEntry(br);
@@ -58,21 +59,22 @@ public class ConsoleApplication {
             }
         }
     }
+
     private void addEntry(BufferedReader br) throws IOException {
         showMessage(Message.KEY_ENTRY);
         String key = br.readLine();
         showMessage(Message.VALUE_ENTRY);
         String value = br.readLine();
-        showMessage(dictionaryService.addEntry(key, value));
+        showMessage(dictionary.validateAndAddEntry(id, key, value));
     }
 
     private void searchEntry(BufferedReader br) throws IOException {
         showMessage(Message.KEY_ENTRY);
         String key = br.readLine();
-        String value = dictionaryService.searchEntry(key);
+        String value = dictionary.getValue(id, key);
         if (value == null)
             showMessage(Status.NOT_KEY);
-        else{
+        else {
             showMessage(Message.OUTPUT_VALUE);
             System.out.println(value);
         }
@@ -81,37 +83,49 @@ public class ConsoleApplication {
     private void deleteEntry(BufferedReader br) throws IOException {
         showMessage(Message.KEY_ENTRY);
         String key = br.readLine();
-        Status status = dictionaryService.deleteEntry(key);
-        showMessage(status);
+        showMessage(dictionary.deleteEntry(id, key));
     }
 
     private void showMessage(Status status) {
         System.out.println(status.getDescription());
     }
+
     private void showMessage(Message message) {
         System.out.println(message.getDescription());
     }
+
     private String getMessage() {
         String message = "";
         int index = 1;
-        for (DictionaryService service : dictionaries) {
-            message += index + ". " + service.getDictionary().getName() + "\n";
+        for (int i : dictionary.getDictionaries()) {
+            message += index + ". Dictionary with index " + i + "\n";
             index++;
         }
         return message;
     }
 
+    private boolean setID(int id) {
+        boolean isRight = false;
+        for (int i : dictionary.getDictionaries())
+            if (i == id) {
+                isRight = true;
+                this.id = id;
+                break;
+            }
+        return isRight;
+    }
+
     private void inputDictionary(BufferedReader br) throws IOException {
         menuItem = 0;
-        int dictionaryItem = 0;
+        int id = 0;
         boolean isCheck = false;
         showMessage(Message.DICTIONARY_SELECTION);
         String message = getMessage();
         while (!isCheck) {
             System.out.print(message);
             try {
-                dictionaryItem = Integer.parseInt(br.readLine()) - 1;
-                if (dictionaries.size() <= dictionaryItem) {
+                id = Integer.parseInt(br.readLine()) - 1;
+                if (!setID(id)) {
                     showMessage(Status.ERROR_INPUT);
                     isCheck = false;
                 } else {
@@ -121,19 +135,20 @@ public class ConsoleApplication {
                 showMessage(Status.ERROR_INPUT);
             }
         }
-
-        dictionaryService = dictionaries.get(dictionaryItem);
-        Status status = dictionaryService.filling();
-        showMessage(status);
-        if (status != Status.OK)
-            inputDictionary(br);
     }
 
-    private void viewDictionary(DictionaryService dictionary) {
+    private void viewDictionary(DictionaryBehavior dictionary) {
         if (dictionary == null)
             showMessage(Status.NO_CONTENT);
         else {
-            System.out.println(dictionary.toString());
+            HashMap<String, String> entries = dictionary.getAllEntries(id);
+            if (entries != null) {
+                for (Map.Entry<String, String> entry : entries.entrySet()) {
+                    System.out.println(entry.getKey() + " " + entry.getValue());
+                }
+            }
+            else
+                showMessage(Status.INVALID_DICTIONARY);
         }
     }
 }
