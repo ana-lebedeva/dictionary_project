@@ -3,6 +3,6 @@ able способный
 dogs собаки
 ABCD слово
 abed лежащий
-cats кошки
 cars машины
 date дата
+cats кошки

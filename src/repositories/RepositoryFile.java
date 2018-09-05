@@ -48,6 +48,7 @@ public class RepositoryFile implements Repository {
                 if (words[0].equals(key)) continue;
                 writer.write(line + "\n");
             }
+
         } catch (IOException e) {
             return Status.NOT_FOUND;
         }
@@ -61,7 +62,7 @@ public class RepositoryFile implements Repository {
         String tempPath = new File("").getAbsolutePath();
         String path = tempPath + paths.get(id);
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(path, true));){
-            writer.write("\n" + key + " " + value);
+            writer.write( key + " " + value + "\n");
             return Status.OK;
         } catch (IOException e) {
             return Status.NOT_FOUND;
