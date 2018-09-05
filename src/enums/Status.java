@@ -4,7 +4,7 @@ public enum Status {
     OK (0, "OK"),
     NOT_FOUND(1,"File not found."),
     NOT_KEY(2, "Key not found."),
-    NO_CONTENT(3,"Dictionary is empty."),
+    NO_CONTENT(3,"DictionaryBehavior is empty."),
     ERROR_INPUT(4, "Invalid input."),
     OUT_OF_BOUNDS (5, "Characters out of bounds."),
     INVALID_LENGTH(6, "The word is not a given length."),
