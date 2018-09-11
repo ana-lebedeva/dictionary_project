@@ -1,11 +1,15 @@
+import enums.DictionarySrtucture;
 import enums.Status;
+import repositories.PropertiesDictionary;
 
 import java.util.HashMap;
 
-public interface DictionaryBehavior {
-    String getValue(int id, String key);
-    Status deleteEntry(int id, String key);
-    HashMap<String, String> getAllEntries(int id);
-    Status validateAndAddEntry(int id, String key, String value);
-    int[] getDictionaries();
+public interface DictionaryBehavior  <T extends DictionarySrtucture>{
+    String getValue(String key);
+    Status deleteEntry(String key);
+    HashMap<String, String> getAllEntries();
+    Status validateAndAddEntry(String key, String value);
+    T[] getDictionaries();
+    void setActiveDictionary(T activeDictionary);
+
 }

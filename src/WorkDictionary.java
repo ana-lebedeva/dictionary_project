@@ -1,26 +1,24 @@
 import enums.CharRange;
+import enums.DictionaryFile;
 import repositories.PropertiesDictionary;
 import repositories.Repository;
 import repositories.RepositoryFile;
 import validators.ValidatorCharsAndLength;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WorkDictionary {
 
     public static void main(String[] args) {
-        List<String> paths = new ArrayList<>();
-        paths.add("\\dictionaries\\file1.txt");
-        paths.add("\\dictionaries\\file2.txt");
+        DictionaryFile file1 = DictionaryFile.FILE1;
+        DictionaryFile file2 = DictionaryFile.FILE2;
+        file1.setPath("\\dictionaries\\file1.txt");
+        file2.setPath("\\dictionaries\\file2.txt");
 
-        List<PropertiesDictionary> propertiesDictionaries = new ArrayList<>();
-        propertiesDictionaries.add(new PropertiesDictionary(4,
+        file1.setProperties(new PropertiesDictionary(4,
                 new CharRange[]{CharRange.LATIN_CAPITAL, CharRange.LATIN_LOWERCASE}));
-        propertiesDictionaries.add(new PropertiesDictionary(5,
+        file2.setProperties(new PropertiesDictionary(5,
                 new CharRange[]{CharRange.NUMERALS}));
 
-        Repository repository = new RepositoryFile(paths, propertiesDictionaries);
+        Repository repository = new RepositoryFile(new DictionaryFile[]{file1, file2});
 
         DictionaryBehavior dictionary = new Dictionary(repository, new ValidatorCharsAndLength());
 

@@ -4,5 +4,5 @@ dogs собаки
 ABCD слово
 abed лежащий
 cars машины
-date дата
 cats кошки
+date дата

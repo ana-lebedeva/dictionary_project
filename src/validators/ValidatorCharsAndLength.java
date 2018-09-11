@@ -1,6 +1,7 @@
 package validators;
 
 import enums.CharRange;
+import enums.Message;
 import enums.Status;
 import repositories.PropertiesDictionary;
 
@@ -11,10 +12,17 @@ public class ValidatorCharsAndLength implements Validator {
             char[] charsKey = key.toCharArray();
             if (properties.getCharRanges() == null || checkCharsKey(charsKey, properties.getCharRanges())) {
                 return Status.OK;
-            } else
-                return Status.OUT_OF_BOUNDS;
-        } else
-            return Status.INVALID_LENGTH;
+            } else{
+                Status ranges = Status.OUT_OF_BOUNDS;
+                ranges.setCharRanges(properties.getCharRanges());
+                ranges.setFieldError(Message.KEY.getDescription());
+                return ranges;
+            }
+        } else {
+            Status length = Status.INVALID_LENGTH;
+            length.setLength(properties.getLengthKey());
+            return length;
+        }
     }
 
     private boolean checkCharsKey(char[] chars, CharRange[] charRanges) {
@@ -35,8 +43,12 @@ public class ValidatorCharsAndLength implements Validator {
         char[] charsValue = value.toCharArray();
         if (checkCharsValue(charsValue)) {
             return Status.OK;
-        } else
-            return Status.OUT_OF_BOUNDS;
+        } else{
+            Status ranges = Status.OUT_OF_BOUNDS;
+            ranges.setCharRanges(new CharRange[]{CharRange.CYRILLIC});
+            ranges.setFieldError(Message.VALUE.getDescription());
+            return ranges;
+        }
     }
 
     private boolean checkCharsValue(char[] chars) {

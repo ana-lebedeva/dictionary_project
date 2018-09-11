@@ -1,10 +1,11 @@
+import enums.DictionaryFile;
 import enums.Status;
 import repositories.Repository;
 import validators.Validator;
 
 import java.util.HashMap;
 
-public class Dictionary implements DictionaryBehavior {
+public class Dictionary implements DictionaryBehavior<DictionaryFile> {
     private Repository repository;
     private Validator validator;
 
@@ -15,32 +16,39 @@ public class Dictionary implements DictionaryBehavior {
 
 
     @Override
-    public String getValue(int id, String key) {
-        return repository.getValue(id, key);
+    public String getValue(String key) {
+        return repository.getValue(key);
     }
 
     @Override
-    public Status deleteEntry(int id, String key) {
-        return repository.delete(id, key);
+    public Status deleteEntry(String key) {
+        return repository.delete(key);
     }
 
     @Override
-    public HashMap<String, String> getAllEntries(int id) {
-        return repository.getAll(id);
+    public HashMap<String, String> getAllEntries() {
+        return repository.getAll();
     }
 
     @Override
-    public Status validateAndAddEntry(int id, String key, String value) {
-        if (validator.checkKey(repository.getProperties(id), key) == Status.OK) {
-            if (validator.checkValue(value) == Status.OK) {
-                return repository.add(id, key, value);
-            } else return validator.checkValue(value);
-        } else return validator.checkKey(repository.getProperties(id), key);
+    public Status validateAndAddEntry(String key, String value) {
+        Status checkKey = validator.checkKey(repository.getProperties(), key);
+        Status checkValue = validator.checkValue(value);
+        if (checkKey == Status.OK) {
+            if (checkValue == Status.OK) {
+                return repository.add(key, value);
+            } else return checkValue;
+        } else return checkKey;
     }
 
     @Override
-    public int[] getDictionaries() {
-        return repository.getDictionaries();
+    public DictionaryFile[] getDictionaries() {
+        return (DictionaryFile[]) repository.getDictionaries();
+    }
+
+    @Override
+    public void setActiveDictionary(DictionaryFile activeDictionary) {
+        repository.setActiveDictionary(activeDictionary);
     }
 
 }

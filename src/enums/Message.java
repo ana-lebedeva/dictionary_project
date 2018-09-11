@@ -10,7 +10,11 @@ public enum Message {
             "3. Add entry;\n" +
             "4. Search entry;\n" +
             "5. Back;\n" +
-            "6. End.");
+            "6. End."),
+    LENGTH("The length should be : "),
+    ALPHABETS("Available alphabets for "),
+    KEY ("KEY"),
+    VALUE("VALUE");
     private final String description;
 
     Message(String description) {
