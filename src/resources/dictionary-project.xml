@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/beans ">
+
+
+    <!-- Здесь должны находиться объявления компонентов -->
+
+    <bean id="repository"
+          class="repositories.RepositoryFile" >
+        <constructor-arg>
+            <list>
+                <value>FILE1</value>
+                <value>FILE2</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="validator"
+            class="validators.ValidatorCharsAndLength" />
+
+    <bean id="dictionary"
+          class="Dictionary">
+        <constructor-arg index="0" ref="repository"/>
+        <constructor-arg index="1" ref="validator"/>
+    </bean>
+
+    <bean id="application"
+            class="ConsoleApplication">
+        <constructor-arg ref="dictionary"/>
+    </bean>
+
+</beans>
