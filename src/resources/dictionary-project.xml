@@ -10,26 +10,16 @@
 
     <bean id="repository"
           class="repositories.RepositoryFile" >
-        <constructor-arg>
-            <list>
-                <value>FILE1</value>
-                <value>FILE2</value>
-            </list>
-        </constructor-arg>
+        <constructor-arg value="#{T(enums.DictionaryFile).values()}" />
     </bean>
 
     <bean id="validator"
             class="validators.ValidatorCharsAndLength" />
 
     <bean id="dictionary"
-          class="Dictionary">
-        <constructor-arg index="0" ref="repository"/>
-        <constructor-arg index="1" ref="validator"/>
-    </bean>
+          class="Dictionary" autowire="constructor" />
 
     <bean id="application"
-            class="ConsoleApplication">
-        <constructor-arg ref="dictionary"/>
-    </bean>
+            class="ConsoleApplication" autowire="constructor" />
 
 </beans>
