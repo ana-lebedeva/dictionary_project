@@ -2,6 +2,7 @@ import enums.CharRange;
 import enums.DictionaryFile;
 import enums.Message;
 import enums.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.util.Map;
 public class ConsoleApplication {
     private DictionaryBehavior dictionary;
 
+    @Autowired
     public ConsoleApplication(DictionaryBehavior dictionary) {
         this.dictionary = dictionary;
     }

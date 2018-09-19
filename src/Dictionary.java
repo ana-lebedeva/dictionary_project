@@ -1,5 +1,6 @@
 import enums.DictionaryFile;
 import enums.Status;
+import org.springframework.beans.factory.annotation.Autowired;
 import repositories.Repository;
 import validators.Validator;
 
@@ -9,6 +10,7 @@ public class Dictionary implements DictionaryBehavior<DictionaryFile> {
     private Repository repository;
     private Validator validator;
 
+    @Autowired
     public Dictionary(Repository repository, Validator validator) {
         this.repository = repository;
         this.validator = validator;
