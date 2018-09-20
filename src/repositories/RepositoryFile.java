@@ -2,11 +2,13 @@ package repositories;
 
 import enums.DictionaryFile;
 import enums.Status;
+import qualifiers.DictionaryFromFile;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
+@DictionaryFromFile
 public class RepositoryFile implements Repository<DictionaryFile> {
     private DictionaryFile activeDictionary;
     private boolean isNullActiveDictionary = true;
