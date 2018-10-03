@@ -1,8 +1,8 @@
 star звезда
 able способный
 dogs собаки
-ABCD слово
 abed лежащий
 cars машины
 cats кошки
 date дата
+work работа
