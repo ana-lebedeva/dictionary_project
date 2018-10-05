@@ -1,10 +1,9 @@
-import enums.DictionarySrtucture;
+import enums.DictionaryStructure;
 import enums.Status;
-import repositories.PropertiesDictionary;
 
 import java.util.HashMap;
 
-public interface DictionaryBehavior  <T extends DictionarySrtucture>{
+public interface DictionaryBehavior  <T extends DictionaryStructure>{
     String getValue(String key);
     Status deleteEntry(String key);
     HashMap<String, String> getAllEntries();

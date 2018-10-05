@@ -1,11 +1,11 @@
 package repositories;
 
-import enums.DictionarySrtucture;
+import enums.DictionaryStructure;
 import enums.Status;
 
 import java.util.HashMap;
 
-public interface Repository <T extends DictionarySrtucture>{
+public interface Repository <T extends DictionaryStructure>{
 
     HashMap<String, String> getAll();
     Status delete (String key);

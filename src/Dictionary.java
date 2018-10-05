@@ -1,4 +1,4 @@
-import enums.DictionaryFile;
+import enums.DictionaryStructure;
 import enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import repositories.Repository;
@@ -6,7 +6,7 @@ import validators.Validator;
 
 import java.util.HashMap;
 
-public class Dictionary implements DictionaryBehavior<DictionaryFile> {
+public class Dictionary implements DictionaryBehavior{
     private Repository repository;
     private Validator validator;
 
@@ -44,12 +44,12 @@ public class Dictionary implements DictionaryBehavior<DictionaryFile> {
     }
 
     @Override
-    public DictionaryFile[] getDictionaries() {
-        return (DictionaryFile[]) repository.getDictionaries();
+    public DictionaryStructure[] getDictionaries() {
+        return  repository.getDictionaries();
     }
 
     @Override
-    public void setActiveDictionary(DictionaryFile activeDictionary) {
+    public void setActiveDictionary(DictionaryStructure activeDictionary) {
         repository.setActiveDictionary(activeDictionary);
     }
 

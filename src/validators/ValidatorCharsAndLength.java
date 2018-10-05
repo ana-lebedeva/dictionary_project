@@ -1,6 +1,7 @@
 package validators;
 
 import enums.CharRange;
+import enums.CharRangeImpl;
 import enums.Message;
 import enums.Status;
 import repositories.PropertiesDictionary;
@@ -45,7 +46,7 @@ public class ValidatorCharsAndLength implements Validator {
             return Status.OK;
         } else{
             Status ranges = Status.OUT_OF_BOUNDS;
-            ranges.setCharRanges(new CharRange[]{CharRange.CYRILLIC});
+            ranges.setCharRanges(new CharRangeImpl[]{CharRangeImpl.CYRILLIC});
             ranges.setFieldError(Message.VALUE.getDescription());
             return ranges;
         }
@@ -55,8 +56,8 @@ public class ValidatorCharsAndLength implements Validator {
         if (chars.length == 0)
             return false;
         for (char c : chars) {
-            if (c < CharRange.CYRILLIC.getStart()
-                    || c > CharRange.CYRILLIC.getEnd())
+            if (c < CharRangeImpl.CYRILLIC.getStart()
+                    || c > CharRangeImpl.CYRILLIC.getEnd())
                 return false;
         }
         return true;

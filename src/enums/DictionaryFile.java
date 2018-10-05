@@ -1,25 +1,25 @@
 package enums;
 
-import repositories.PropertiesDictionary;
+import repositories.PropertiesDictionaryImpl;
 
 
-public enum DictionaryFile implements DictionarySrtucture{
+public enum DictionaryFile implements DictionaryStructure {
     FILE1(
             "\\dictionaries\\file1.txt",
-            new PropertiesDictionary(4,
-                    new CharRange[]{CharRange.LATIN_CAPITAL, CharRange.LATIN_LOWERCASE}
+            new PropertiesDictionaryImpl(4,
+                    new CharRangeImpl[]{CharRangeImpl.LATIN_CAPITAL, CharRangeImpl.LATIN_LOWERCASE}
                     )
     ), FILE2(
             "\\dictionaries\\file2.txt",
-            new PropertiesDictionary(5,
-                    new CharRange[]{CharRange.NUMERALS}
+            new PropertiesDictionaryImpl(5,
+                    new CharRangeImpl[]{CharRangeImpl.NUMERALS}
                     )
     );
 
     private String path;
-    private PropertiesDictionary properties;
+    private PropertiesDictionaryImpl properties;
 
-    DictionaryFile(String path, PropertiesDictionary properties) {
+    DictionaryFile(String path, PropertiesDictionaryImpl properties) {
         this.path = path;
         this.properties = properties;
     }
@@ -28,13 +28,18 @@ public enum DictionaryFile implements DictionarySrtucture{
         this.path = path;
     }
 
-    public void setProperties(PropertiesDictionary properties) {
+    public void setProperties(PropertiesDictionaryImpl properties) {
         this.properties = properties;
     }
 
     @Override
-    public PropertiesDictionary getProperties() {
+    public PropertiesDictionaryImpl getProperties() {
         return properties;
+    }
+
+    @Override
+    public String getName() {
+        return toString();
     }
 
     public String getPath() {

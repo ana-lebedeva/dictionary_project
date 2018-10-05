@@ -2,6 +2,7 @@ package enums;
 
 import repositories.PropertiesDictionary;
 
-public interface DictionarySrtucture {
+public interface DictionaryStructure {
     PropertiesDictionary getProperties();
+    String getName();
 }

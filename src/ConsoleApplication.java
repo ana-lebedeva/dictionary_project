@@ -1,7 +1,4 @@
-import enums.CharRange;
-import enums.DictionaryFile;
-import enums.Message;
-import enums.Status;
+import enums.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
@@ -12,6 +9,7 @@ import java.util.Map;
 
 public class ConsoleApplication {
     private DictionaryBehavior dictionary;
+    private DictionaryStructure[] dictionaries;
 
     @Autowired
     public ConsoleApplication(DictionaryBehavior dictionary) {
@@ -22,7 +20,8 @@ public class ConsoleApplication {
         int menuItem = 0;
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         try {
-            if (dictionary.getDictionaries() == null || dictionary.getDictionaries().length == 0) {
+            dictionaries = dictionary.getDictionaries();
+            if (dictionaries == null || dictionaries.length == 0) {
                 showMessage(Status.NO_DICTIONARY);
                 System.exit(0);
             } else {
@@ -100,7 +99,7 @@ public class ConsoleApplication {
             showMessage(Message.ALPHABETS);
             System.out.println(status.getFieldError());
             for(CharRange range: status.getCharRanges())
-                System.out.print(range + " ");
+                System.out.print(range.getName() + " ");
             System.out.println();
         }
     }
@@ -111,16 +110,15 @@ public class ConsoleApplication {
 
     private String getMessage() {
         String message = "";
-        DictionaryFile[] files = (DictionaryFile[]) dictionary.getDictionaries();
-        for (int i=0; i < files.length ; i++){
-            message += (i+1) + ". " + files[i] + "; \n";
+        for (int i=0; i < dictionaries.length ; i++){
+            message += (i+1) + ". " + dictionaries[i].getName() + "; \n";
         }
         return message;
     }
 
     private boolean checkID(int id) {
         boolean isRight = false;
-        if (id < dictionary.getDictionaries().length && id >= 0)
+        if (id < dictionaries.length && id >= 0)
             isRight = true;
         return isRight;
     }
