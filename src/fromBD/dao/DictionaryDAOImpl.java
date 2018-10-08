@@ -1,5 +1,7 @@
-package fromBD;
+package fromBD.dao;
 
+import fromBD.DictionaryBD;
+import fromBD.Record;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

@@ -1,4 +1,7 @@
-package fromBD;
+package fromBD.dao;
+
+import fromBD.DictionaryBD;
+import fromBD.Record;
 
 import java.util.List;
 

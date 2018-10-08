@@ -1,4 +1,7 @@
-package fromBD;
+package fromBD.service;
+
+import fromBD.DictionaryBD;
+import fromBD.Record;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,6 +1,7 @@
 package fromBD;
 
 import enums.Status;
+import fromBD.service.DictionaryService;
 import repositories.PropertiesDictionary;
 import repositories.Repository;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class RepositoryBD implements Repository<DictionaryBD> {
     private DictionaryBD activeDictionary;
-    private  DictionaryService service;
+    private DictionaryService service;
     private boolean isNullActiveDictionary = true;
 
     public RepositoryBD(DictionaryService service) {

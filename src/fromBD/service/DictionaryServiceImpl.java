@@ -1,5 +1,8 @@
-package fromBD;
+package fromBD.service;
 
+import fromBD.DictionaryBD;
+import fromBD.Record;
+import fromBD.dao.DictionaryDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
