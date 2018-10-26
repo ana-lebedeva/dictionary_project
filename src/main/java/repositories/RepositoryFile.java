@@ -5,7 +5,9 @@ import enums.Status;
 import qualifiers.DictionaryFromFile;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 @DictionaryFromFile
@@ -110,6 +112,31 @@ public class RepositoryFile implements Repository<DictionaryFile> {
     public void setActiveDictionary(DictionaryFile activeDictionary) {
         this.activeDictionary = activeDictionary;
         isNullActiveDictionary = false;
+    }
+
+    @Override
+    public List<String> getAllEntries() {
+        if (!isNullActiveDictionary) {
+            String path = getPath();
+            List<String> dictionary = new ArrayList<>();
+            try (Scanner scanner = new Scanner(new InputStreamReader(new FileInputStream(path), "UTF-8"));) {
+                while (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] words = line.split("\\s");
+                    dictionary.add(words[0] + " - " + words[1]);
+                }
+            } catch (ArrayIndexOutOfBoundsException | FileNotFoundException | UnsupportedEncodingException e) {
+                return null;
+            }
+            return dictionary;
+        }
+        return null;
+    }
+
+    @Override
+    public Status delete(String key, String value) {
+        //TODO
+        return null;
     }
 
     @Override

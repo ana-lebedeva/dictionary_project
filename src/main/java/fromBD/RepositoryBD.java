@@ -5,8 +5,10 @@ import fromBD.service.DictionaryService;
 import repositories.PropertiesDictionary;
 import repositories.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RepositoryBD implements Repository<DictionaryBD> {
     private DictionaryBD activeDictionary;
@@ -19,19 +21,18 @@ public class RepositoryBD implements Repository<DictionaryBD> {
 
     @Override
     public HashMap<String, String> getAll() {
-        return service.getRecords(activeDictionary.getId());
+        List<Record> records = service.getRecords(activeDictionary.getId());
+        HashMap<String, String> result = new HashMap<>();
+        for (Record record : records){
+            result.put(record.getWord(), record.getTransletion());
+        }
+        return result;
     }
 
     @Override
     public Status delete(String key) {
         if (!isNullActiveDictionary){
-            try {
-                service.deleteRecord(activeDictionary.getId(), key);
-                return Status.OK;
-            } catch (javax.persistence.NoResultException ex){
-                return Status.NOT_KEY;
-            }
-
+            //TODO
         }
         return Status.NO_ACTIVE_DICTIONARY;
     }
@@ -40,8 +41,7 @@ public class RepositoryBD implements Repository<DictionaryBD> {
     public Status add(String key, String value) {
         if (!isNullActiveDictionary) {
             Record record = new Record(key, value, activeDictionary);
-            service.save(record);
-            return Status.OK;
+            return service.save(record);
         }
         return Status.NO_ACTIVE_DICTIONARY;
     }
@@ -49,8 +49,13 @@ public class RepositoryBD implements Repository<DictionaryBD> {
     @Override
     public String getValue(String key) {
         try{
-            Record record =service.getRecord(activeDictionary.getId(), key);
-            return  record.getWord() + " " + record.getTransletion();
+            String result = "";
+            List<Record> records = service.getRecord(activeDictionary.getId(), key);
+            for (Record record : records){
+                result +=  record.getWord() + " - " + record.getTransletion() + "\r\n";
+
+            }
+            return result;
         } catch (javax.persistence.NoResultException ex){
             return null;
         }
@@ -72,6 +77,30 @@ public class RepositoryBD implements Repository<DictionaryBD> {
     public void setActiveDictionary(DictionaryBD activeDictionary) {
         this.activeDictionary = activeDictionary;
         isNullActiveDictionary = false;
+    }
+
+    @Override
+    public List<String> getAllEntries() {
+        List<Record> records = service.getRecords(activeDictionary.getId());
+        List< String> result = new ArrayList<>();
+        for (Record record : records){
+            result.add(record.getWord()+ " - " + record.getTransletion());
+        }
+        return result;
+    }
+
+    @Override
+    public Status delete(String key, String value) {
+        if (!isNullActiveDictionary){
+            try {
+                service.deleteRecord(activeDictionary.getId(), key, value);
+                return Status.OK;
+            } catch (javax.persistence.NoResultException ex){
+                return Status.NOT_KEY;
+            }
+
+        }
+        return Status.NO_ACTIVE_DICTIONARY;
     }
 
 }

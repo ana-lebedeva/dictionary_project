@@ -1,5 +1,6 @@
 package fromBD.service;
 
+import enums.Status;
 import fromBD.DictionaryBD;
 import fromBD.Record;
 import fromBD.dao.DictionaryDAO;
@@ -21,29 +22,23 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Transactional
     @Override
-    public void save(Record record) {
-        dao.save(record);
+    public Status save(Record record) {
+        return dao.save(record);
     }
 
     @Override
-    public Record getRecord(int dictionaryID, String str) {
+    public List<Record> getRecord(int dictionaryID, String str) {
       return dao.getRecord(dictionaryID, str);
     }
 
+    @Override
+    public List<Record> getRecords(int dictionaryID) {
+        return  dao.getRecords(dictionaryID);
+    }
     @Transactional
     @Override
-    public void deleteRecord(int dictionaryID, String word) {
-        dao.deleteRecord(dictionaryID, word);
-    }
-
-    @Override
-    public HashMap<String, String> getRecords(int dictionaryID) {
-        List<Record> records = dao.getRecords(dictionaryID);
-        HashMap<String, String> result = new HashMap<>();
-        for (Record record : records){
-            result.put(record.getWord(), record.getTransletion());
-        }
-        return result;
+    public void deleteRecord(int dictionaryID, String word, String translation) {
+        dao.deleteRecord(dictionaryID, word, translation);
     }
 
 }

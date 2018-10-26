@@ -1,9 +1,6 @@
 package validators;
 
-import enums.CharRange;
-import enums.CharRangeImpl;
-import enums.Message;
-import enums.Status;
+import enums.*;
 import repositories.PropertiesDictionary;
 
 public class ValidatorCharsAndLength implements Validator {

@@ -4,6 +4,7 @@ import enums.DictionaryStructure;
 import enums.Status;
 
 import java.util.HashMap;
+import java.util.List;
 
 public interface Repository <T extends DictionaryStructure>{
 
@@ -14,4 +15,6 @@ public interface Repository <T extends DictionaryStructure>{
     T[] getDictionaries();
     PropertiesDictionary getProperties();
     void setActiveDictionary(T activeDictionary);
+    List<String> getAllEntries();
+    Status delete(String key, String value);
 }

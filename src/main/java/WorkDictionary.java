@@ -6,7 +6,7 @@ public class WorkDictionary {
 
     public static void main(String[] args) {
 
-        ApplicationContext cpx = new ClassPathXmlApplicationContext("resources/dictionary-project.xml");
+        ApplicationContext cpx = new ClassPathXmlApplicationContext("dictionary-project.xml");
         ConsoleApplication application = (ConsoleApplication) cpx.getBean("application");
         application.start();
     }

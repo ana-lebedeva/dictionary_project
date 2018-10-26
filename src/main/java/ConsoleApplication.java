@@ -1,3 +1,4 @@
+import dictionaries.DictionaryBehavior;
 import enums.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -86,7 +87,9 @@ public class ConsoleApplication {
     private void deleteEntry(BufferedReader br) throws IOException {
         showMessage(Message.KEY_ENTRY);
         String key = br.readLine();
-        showMessage(dictionary.deleteEntry(key));
+        showMessage(Message.VALUE_ENTRY);
+        String val = br.readLine();
+        showMessage(dictionary.deleteEntry(key, val));
     }
 
     private void showMessage(Status status) {
@@ -151,7 +154,7 @@ public class ConsoleApplication {
         if (dictionary == null)
             showMessage(Status.NO_CONTENT);
         else {
-            HashMap<String, String> entries = dictionary.getAllEntries();
+            HashMap<String, String> entries = dictionary.getAll();
             if (entries != null) {
                 for (Map.Entry<String, String> entry : entries.entrySet()) {
                     System.out.println(entry.getKey() + " " + entry.getValue());

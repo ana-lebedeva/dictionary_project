@@ -25,6 +25,30 @@ public class Record {
     public Record() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setTransletion(String transletion) {
+        this.transletion = transletion;
+    }
+
+    public DictionaryBD getDictionary() {
+        return dictionary;
+    }
+
+    public void setDictionary(DictionaryBD dictionary) {
+        this.dictionary = dictionary;
+    }
+
     public String getWord() {
         return word;
     }

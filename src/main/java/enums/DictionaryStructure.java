@@ -2,7 +2,9 @@ package enums;
 
 import repositories.PropertiesDictionary;
 
-public interface DictionaryStructure {
+import java.io.Serializable;
+
+public interface DictionaryStructure extends Serializable {
     PropertiesDictionary getProperties();
     String getName();
 }

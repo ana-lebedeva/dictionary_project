@@ -1,3 +1,5 @@
+package dictionaries;
+
 import enums.DictionaryStructure;
 import enums.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -5,6 +7,7 @@ import repositories.Repository;
 import validators.Validator;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class Dictionary implements DictionaryBehavior{
     private Repository repository;
@@ -15,7 +18,6 @@ public class Dictionary implements DictionaryBehavior{
         this.repository = repository;
         this.validator = validator;
     }
-
 
     @Override
     public String getValue(String key) {
@@ -28,7 +30,7 @@ public class Dictionary implements DictionaryBehavior{
     }
 
     @Override
-    public HashMap<String, String> getAllEntries() {
+    public HashMap<String, String> getAll() {
         return repository.getAll();
     }
 
@@ -51,6 +53,16 @@ public class Dictionary implements DictionaryBehavior{
     @Override
     public void setActiveDictionary(DictionaryStructure activeDictionary) {
         repository.setActiveDictionary(activeDictionary);
+    }
+
+    @Override
+    public List<String> getAllEntries() {
+        return repository.getAllEntries();
+    }
+
+    @Override
+    public Status deleteEntry(String key, String value) {
+       return repository.delete(key, value);
     }
 
 }
